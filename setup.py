@@ -29,3 +29,26 @@ setuptools.setup(
     exclude_package_data={},
     include_package_data=True,
 )
+
+
+def print_total_mileage_and_total_cycling_workouts():
+    workouts_in_2021 = 0
+    mileage_ridden_in_2021 = 0
+
+    workouts = PelotonWorkout.list()
+    for workout in workouts:
+        if workout.created_at.year != 2021:
+            continue
+        if workout.metrics.fitness_discipline != "cycling":
+            continue
+        mileage_ridden = workout.metrics.distance_summary.value
+        if mileage_ridden and mileage_ridden > 0:
+            workouts_in_2021 += 1
+            mileage_ridden_in_2021 += mileage_ridden
+            print(str(workout.created_at))
+            print("mileage_ridden: ", mileage_ridden)
+            print("----------")
+
+
+        print("workouts_in_2021: ", workouts_in_2021)
+        print("mileage_ridden_in_2021: ", mileage_ridden_in_2021
